@@ -1,0 +1,23 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="adminPage">
+    <nav>
+        <div class="nav nav-tabs mx-n3" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#table" role="tab"
+               aria-controls="nav-home" aria-selected="true">User table</a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#new" role="tab"
+               aria-controls="nav-profile" aria-selected="false">New User</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="table" role="tabpanel" aria-labelledby="nav-home-tab">
+            <h2 class="h4 mb-3">All users</h2>
+            <div th:replace="~{pages/allUsers :: tableAllUsers}"></div>
+        </div>
+        <div class="tab-pane fade" id="new" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <h2 class="h4 mb-3">Add new user</h2>
+            <div th:replace="~{pages/new :: newPage}"></div>
+        </div>
+    </div>
+</div>
+</html>

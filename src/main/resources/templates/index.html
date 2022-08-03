@@ -1,11 +1,31 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" http-equiv="Content-Type" content="width=device-width, initial-scale=1, charset=UTF-8">
+    <title th:text="${#httpServletRequest.requestURI == '/admin' ? 'Admin panel' : 'User page'}"/>
+    <div th:insert="blocks/srccdn :: cdn"></div>
 </head>
 <body>
-<h1>Welcome to Index PAGE!</h1>
-
-
+<header th:insert="~{blocks/head :: head}"></header>
+<div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col-2 p-0">
+            <div th:insert="~{blocks/type_selection :: button}" id="butPanel"/>
+        </div>
+        <div class="col ml-4">
+            <div th:switch="${#httpServletRequest.requestURI}">
+                <div class="container" th:case="'/admin'">
+                    <div class="row h1">Admin panel</div>
+                    <div class="row-12" th:insert="~{pages/admin_panel :: adminPage}"/>
+                </div>
+                <div class="container" th:case="'/user'">
+                    <div class="row h1">User information-page</div>
+                    <div class="row-12" th:insert="~{pages/user :: userPage}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
