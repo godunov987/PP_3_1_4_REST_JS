@@ -1,0 +1,20 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<div th:fragment="button" id="butPanel">
+
+    <div class="btn-group-vertical btn-group-justified" style="width: 100%">
+        <button th:if="${user.serchRoleAdmin()}" id="buttonAdmin" type="button" data-toggle="button"
+                th:class="${#httpServletRequest.requestURI == '/admin' ? 'btn btn-primary text-left' : 'btn btn-light text-left text-primary'}"
+                onclick="location.href = '/admin';">
+            Admin
+        </button>
+        <button id="buttonUser" type="button" data-toggle="button"
+                th:class="${#httpServletRequest.requestURI == '/user' ? 'btn btn-primary text-left' : 'btn btn-light text-left text-primary'}"
+                onclick="location.href = '/user';">
+            User
+        </button>
+    </div>
+</div>
+</html>

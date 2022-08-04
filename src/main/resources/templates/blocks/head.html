@@ -1,0 +1,21 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<header th:fragment="head" class="pt-pb-1 bg-dark text-white ">
+    <section class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div th:text="${user.getEmail()}" class="m-0 navbar-brand fw-bold" style="font-weight: bold">Email user
+                </div>
+                <div class="navbar-brand m-0">with roles:</div>
+                <div th:each="role : ${user.getRoles()}" th:text="${role.getRole()}" class="m-0 navbar-brand">
+                </div>
+
+            </div>
+            <div class="col-auto nav-item navbar-nav me-auto mb-2 mb-md-0">
+                <a class="nav-link text-white-50" href="/logout">Logout</a>
+            </div>
+        </div>
+    </section>
+</header>
+
+</html>
