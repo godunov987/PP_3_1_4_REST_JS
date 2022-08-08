@@ -1,22 +1,22 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.entity.Role;
+import ru.kata.spring.boot_security.demo.entity.RoleType;
+import ru.kata.spring.boot_security.demo.model.UserModel;
 import ru.kata.spring.boot_security.demo.servise.UserService;
 
 
-import javax.validation.Valid;
-import java.security.Principal;
-import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@Controller
+
+@RestController
 @EnableWebSecurity
-@RequestMapping(value = "/admin")
+@RequestMapping(value = "/api")
 public class AdminController {
 
     private final UserService userService;
@@ -26,39 +26,47 @@ public class AdminController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public String getAllUsers(Model model, Principal principal) {
-        model.addAttribute("user", userService.loadUserByUsername(principal.getName()));
-        model.addAttribute("allRoles", userService.getAllRole());
-        model.addAttribute("userNew", new User());
-        model.addAttribute("userList", userService.getAll());
-        return "/index";
-    }
-
-    @RequestMapping(value = "/update_{id}", method = RequestMethod.POST)
-    public String update(@ModelAttribute("userAct") @Valid User user, BindingResult bindingResult,
-                         @RequestParam(value = "rolNewUser", required = false) List<String> role) {
-        if (bindingResult.hasErrors()) {
-            return "redirect:/admin#edit_" + user.getId();
+    @GetMapping(value = "/json")
+    public ResponseEntity <?> getAllUsers(@RequestHeader ("type") String type) {
+        try {
+            if(type.equals("all")){
+                return ResponseEntity.ok(userService.getAll());
+            }
+            return ResponseEntity.ok(userService.getUser(Long.parseLong(type)));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body("ERROR: Не удалось получить пользователя/ей ::: " + e.getMessage());
         }
-        userService.updateUser(user, role);
-        return "redirect:/admin";
     }
 
-    @RequestMapping(value = "/delete_{id}", method = RequestMethod.POST)
-    public String delete(@PathVariable("id") long id) {
-        userService.remove(id);
-        return "redirect:/admin";
+    @GetMapping(value = "/roles")
+    public ResponseEntity <List<RoleType>> getAllRoles(){
+        return ResponseEntity.ok(userService.getAllRole().stream().map(Role::getRole).collect(Collectors.toList()));
     }
 
-    @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String createUser(@ModelAttribute("userNew") @Valid User userNew,
-                             BindingResult bindingResult, @RequestParam(value = "rolNewUser", required = false) List<String> role) {
-        if (bindingResult.hasErrors()) {
-            return "redirect:/admin#new";
+    @PutMapping(value = "/add")
+    public ResponseEntity <UserModel> update(@RequestBody UserModel updateUser) {
+        return ResponseEntity.ok(userService.updateUser(updateUser));
+    }
+
+    @DeleteMapping(value = "/delete")
+    public ResponseEntity <String> delete(@RequestHeader ("id") long id) {
+        try {
+            userService.remove(id);
+            return ResponseEntity.ok("User id=" + id + " deleted");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("ERROR: The user with this ID " + id + " could not be deleted! : " + e.getMessage());
         }
-        userService.add(userNew, role);
-        return "redirect:/admin";
+    }
+
+    @PostMapping(value = "/add")
+    public ResponseEntity <String> createUser(@RequestBody UserModel userNew) {
+
+        try {
+            userService.add(userNew);
+            return ResponseEntity.ok("User " + userNew.getName() + " created");
+        } catch (Exception uEx) {
+            return ResponseEntity.badRequest().body("ERROR: Didn't create user " + userNew.getName());
+        }
     }
 
 

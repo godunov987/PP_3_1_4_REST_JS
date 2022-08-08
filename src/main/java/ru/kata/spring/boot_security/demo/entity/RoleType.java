@@ -1,6 +1,4 @@
-package ru.kata.spring.boot_security.demo.model;
-
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+package ru.kata.spring.boot_security.demo.entity;
 
 public enum RoleType {
     ADMIN("ROLE_ADMIN"),
