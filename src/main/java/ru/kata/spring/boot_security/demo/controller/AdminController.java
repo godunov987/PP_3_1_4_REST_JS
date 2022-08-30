@@ -27,29 +27,29 @@ public class AdminController {
     }
 
     @GetMapping(value = "/json")
-    public ResponseEntity <?> getAllUsers(@RequestHeader ("type") String type) {
+    public ResponseEntity<?> getAllUsers(@RequestHeader("type") String type) {
         try {
-            if(type.equals("all")){
+            if (type.equals("all")) {
                 return ResponseEntity.ok(userService.getAll());
             }
             return ResponseEntity.ok(userService.getUser(Long.parseLong(type)));
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body("ERROR: Не удалось получить пользователя/ей ::: " + e.getMessage());
         }
     }
 
     @GetMapping(value = "/roles")
-    public ResponseEntity <List<RoleType>> getAllRoles(){
+    public ResponseEntity<List<RoleType>> getAllRoles() {
         return ResponseEntity.ok(userService.getAllRole().stream().map(Role::getRole).collect(Collectors.toList()));
     }
 
     @PutMapping(value = "/add")
-    public ResponseEntity <UserModel> update(@RequestBody UserModel updateUser) {
+    public ResponseEntity<UserModel> update(@RequestBody UserModel updateUser) {
         return ResponseEntity.ok(userService.updateUser(updateUser));
     }
 
     @DeleteMapping(value = "/delete")
-    public ResponseEntity <String> delete(@RequestHeader ("id") long id) {
+    public ResponseEntity<String> delete(@RequestHeader("id") long id) {
         try {
             userService.remove(id);
             return ResponseEntity.ok("User id=" + id + " deleted");
@@ -59,7 +59,7 @@ public class AdminController {
     }
 
     @PostMapping(value = "/add")
-    public ResponseEntity <String> createUser(@RequestBody UserModel userNew) {
+    public ResponseEntity<String> createUser(@RequestBody UserModel userNew) {
 
         try {
             userService.add(userNew);

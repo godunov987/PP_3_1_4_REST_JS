@@ -7,7 +7,7 @@
                 <div th:text="${user.getEmail()}" class="m-0 navbar-brand fw-bold" style="font-weight: bold">Email user
                 </div>
                 <div class="navbar-brand m-0">with roles:</div>
-                <div th:each="role : ${user.getRoles()}" th:text="${role.getRole()}" class="m-0 navbar-brand">
+                <div th:each="role : ${user.getRoles()}" th:text="${role}" class="m-0 navbar-brand">
                 </div>
 
             </div>

@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
@@ -18,19 +18,15 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(name = "name")
-    @NotEmpty(message = "Имя не может быть пустым")
     private String name;
 
     @Column(name = "lastname")
-    @NotEmpty(message = "Фамилия не может быть пустой")
     private String lastname;
 
     @Column(name = "email", unique = true)
-    @Email(message = "Не верный формат Email")
     private String email;
 
     @Column
-    @NotNull(message = "Возраст не может быть пустым")
     private Integer age;
 
     private String password;
@@ -137,10 +133,6 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
-
-    public boolean serchRoleAdmin() {
-        return roles.stream().anyMatch(x -> x.getRole().equals(RoleType.ADMIN));
     }
 
     @Override

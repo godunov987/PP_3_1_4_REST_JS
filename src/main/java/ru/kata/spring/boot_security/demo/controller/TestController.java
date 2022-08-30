@@ -18,6 +18,7 @@ public class TestController {
 
     @Autowired
     UserService service;
+    @Autowired
     UserRepository repo;
 
     @GetMapping

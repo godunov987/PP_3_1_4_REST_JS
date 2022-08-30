@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @JsonIgnoreProperties(value = "user")
-public class UserModel {
+public class UserModel{
 
     private Long id;
 

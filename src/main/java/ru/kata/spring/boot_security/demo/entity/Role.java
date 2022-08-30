@@ -1,7 +1,8 @@
 package ru.kata.spring.boot_security.demo.entity;
 
-import org.springframework.security.core.GrantedAuthority;
 
+
+import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 import java.util.Set;
 
@@ -49,3 +50,4 @@ public class Role implements GrantedAuthority {
         return role.name();
     }
 }
+

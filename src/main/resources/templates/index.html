@@ -3,26 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" http-equiv="Content-Type" content="width=device-width, initial-scale=1, charset=UTF-8">
-    <title th:text="${#httpServletRequest.requestURI == '/admin' ? 'Admin panel' : 'User page'}"/>
-    <div th:insert="blocks/srccdn :: cdn"></div>
+    <title th:text="${#httpServletRequest.requestURI == '/' ? 'Admin panel' : 'User page'}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-<body>
+<body onload="addUserTable()">
 <header th:insert="~{blocks/head :: head}"></header>
-<div class="container-fluid">
+<div class="container-fluid" th:if="${#httpServletRequest.requestURI == '/'}">
     <div class="row mt-3">
         <div class="col-2 p-0">
-            <div th:insert="~{blocks/type_selection :: button}" id="butPanel"/>
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
+                   aria-controls="v-pills-home" aria-selected="true">Admin</a>
+                <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
+                   aria-controls="v-pills-profile" aria-selected="false">User</a>
+            </div>
         </div>
         <div class="col ml-4">
-            <div th:switch="${#httpServletRequest.requestURI}">
-                <div class="container" th:case="'/admin'">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                     aria-labelledby="v-pills-home-tab">
                     <div class="row h1">Admin panel</div>
-                    <div class="row-12" th:insert="~{pages/admin_panel :: adminPage}"/>
+                    <div class="row-12" th:insert="~{pages/admin_panel :: adminPage}"></div>
                 </div>
-                <div class="container" th:case="'/user'">
+                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                     <div class="row h1">User information-page</div>
-                    <div class="row-12" th:insert="~{pages/user :: userPage}"/>
+                    <div class="row-12" th:insert="~{pages/user :: userPage}"></div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:insert="blocks/srccdn :: cdn"></div>
+
+<!-- For user-->
+<div class="container-fluid" th:if="${#httpServletRequest.requestURI == '/user'}">
+    <div class="row mt-3">
+        <div class="col-2 p-0">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#" role="tab"
+                   aria-controls="v-pills-home" aria-selected="true">User</a>
+            </div>
+        </div>
+        <div class="col ml-4">
+            <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel"
+                 aria-labelledby="v-pills-profile-tab">
+                <div class="row h1">User information-page</div>
+                <div class="row-12" th:insert="~{pages/user :: userPage}"></div>
             </div>
         </div>
     </div>
